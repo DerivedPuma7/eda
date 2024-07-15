@@ -3,6 +3,7 @@ package events
 import (
 	"time"
 
+	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -52,4 +53,12 @@ func (suite *EventDispatcherTestSuite) SetupTest() {
   }
   suite.event = TestEvent{ Name: "test event", Payload: "test payload" }
   suite.event2 = TestEvent{ Name: "test event 2", Payload: "test payload 2" }
+}
+
+type MockHandler struct {
+  mock.Mock
+}
+
+func (m *MockHandler) Handle(event EventInterface) {
+  m.Called(event)
 }

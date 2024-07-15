@@ -72,6 +72,19 @@ func (suite *EventDispatcherTestSuite) TestEventDispatcher_Has() {
   suite.Equal(false, hasnot)
 }
 
+func (suite *EventDispatcherTestSuite) TestEventDispatcher_Remove() {
+  eventName := suite.event.GetName()
+  suite.eventDispatcher.Register(eventName, &suite.handler)
+  suite.eventDispatcher.Register(eventName, &suite.handler2)
+
+  suite.Equal(2, len(suite.eventDispatcher.handlers[eventName]))
+
+  suite.eventDispatcher.Remove(eventName, &suite.handler)
+
+  suite.Equal(1, len(suite.eventDispatcher.handlers[eventName]))
+  suite.Equal(&suite.handler2, suite.eventDispatcher.handlers[eventName][0])
+}
+
 func (suite *EventDispatcherTestSuite) TestEventDispatcher_Dispatch() {
   eHandler := &MockHandler{}
   eHandler.On("Handle", &suite.event)

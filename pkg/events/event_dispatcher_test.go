@@ -57,3 +57,17 @@ func (suite *EventDispatcherTestSuite) TestEventDispatcher_Clear() {
 
   suite.Equal(0, len(suite.eventDispatcher.handlers))
 }
+
+func (suite *EventDispatcherTestSuite) TestEventDispatcher_Has() {
+  eventName := suite.event.GetName()
+  suite.eventDispatcher.Register(eventName, &suite.handler)
+  suite.eventDispatcher.Register(eventName, &suite.handler2)
+
+  has1 := suite.eventDispatcher.Has(eventName, &suite.handler)
+  has2 := suite.eventDispatcher.Has(eventName, &suite.handler2)
+  hasnot := suite.eventDispatcher.Has(eventName, &suite.handler3)
+
+  suite.Equal(true, has1)
+  suite.Equal(true, has2)
+  suite.Equal(false, hasnot)
+}

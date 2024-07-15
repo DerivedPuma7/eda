@@ -32,7 +32,13 @@ func (ed *EventDispatcher) Clear() error {
 }
 
 func (ed *EventDispatcher) Dispatch(event EventInterface) error {
-	panic("unimplemented")
+  eventName := event.GetName()
+  if handlers, eventRegistered := ed.handlers[eventName]; eventRegistered {
+    for _, h := range handlers {
+      h.Handle(event)
+    }
+  }
+  return nil
 }
 
 func (ed *EventDispatcher) Has(eventName string, handler EventHandlerInterface) bool {

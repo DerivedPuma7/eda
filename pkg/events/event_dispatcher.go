@@ -27,7 +27,8 @@ func (ed *EventDispatcher) Register(eventName string, handler EventHandlerInterf
 }
 
 func (ed *EventDispatcher) Clear() error {
-	panic("unimplemented")
+	ed.handlers = make(map[string][]EventHandlerInterface)
+  return nil
 }
 
 func (ed *EventDispatcher) Dispatch(event EventInterface) error {

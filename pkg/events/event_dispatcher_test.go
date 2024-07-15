@@ -71,3 +71,14 @@ func (suite *EventDispatcherTestSuite) TestEventDispatcher_Has() {
   suite.Equal(true, has2)
   suite.Equal(false, hasnot)
 }
+
+func (suite *EventDispatcherTestSuite) TestEventDispatcher_Dispatch() {
+  eHandler := &MockHandler{}
+  eHandler.On("Handle", &suite.event)
+  suite.eventDispatcher.Register(suite.event.GetName(), eHandler)
+
+  suite.eventDispatcher.Dispatch(&suite.event)
+
+  eHandler.AssertExpectations(suite.T())
+  eHandler.AssertNumberOfCalls(suite.T(), "Handle", 1)
+}

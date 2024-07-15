@@ -53,7 +53,16 @@ func (ed *EventDispatcher) Has(eventName string, handler EventHandlerInterface) 
 }
 
 func (ed *EventDispatcher) Remove(eventName string, handler EventHandlerInterface) error {
-	panic("unimplemented")
+	if handlers, eventRegistered := ed.handlers[eventName]; eventRegistered{
+    for i, h := range handlers {
+      if h == handler {
+        previousHandlers := ed.handlers[eventName][:i]
+        posteriorHandlers := ed.handlers[eventName][i+1:]
+        ed.handlers[eventName] = append(previousHandlers, posteriorHandlers...)
+      }
+    }
+  }
+  return nil
 }
 
 var _ EventDispatcherInterface = (*EventDispatcher)(nil)

@@ -36,7 +36,14 @@ func (ed *EventDispatcher) Dispatch(event EventInterface) error {
 }
 
 func (ed *EventDispatcher) Has(eventName string, handler EventHandlerInterface) bool {
-	panic("unimplemented")
+	if _, eventRegistered := ed.handlers[eventName]; eventRegistered{
+    for _, h := range ed.handlers[eventName] {
+      if h == handler {
+        return true
+      }
+    }
+  }
+  return false
 }
 
 func (ed *EventDispatcher) Remove(eventName string, handler EventHandlerInterface) error {
